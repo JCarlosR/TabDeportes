@@ -158,6 +158,35 @@ public class PanelActivity extends AppCompatActivity
             case R.id.item_double_A:
                 fragment = SportFragment.newInstance("DobleA", 29);
                 break;
+            case R.id.item_MLB:
+                fragment = SportFragment.newInstance("MLB", 28);
+                break;
+            case R.id.item_baseball_others:
+                fragment = SportFragment.newInstance("Otras ligas", 30);
+                break;
+
+            case R.id.item_BSN:
+                fragment = SportFragment.newInstance("BSN", 25);
+                break;
+            case R.id.item_NBA:
+                fragment = SportFragment.newInstance("NBA", 24);
+                break;
+            case R.id.item_basketball_others:
+                fragment = SportFragment.newInstance("Otras ligas", 26);
+                break;
+
+            case R.id.item_MMA:
+                fragment = SportFragment.newInstance("MMA", 38);
+                break;
+            case R.id.item_NFL:
+                fragment = SportFragment.newInstance("NFL", 35);
+                break;
+            case R.id.item_wheels:
+                fragment = SportFragment.newInstance("Wheels & Lipstick", 241);
+                break;
+            case R.id.item_volleyball:
+                fragment = SportFragment.newInstance("Voleibol", 41);
+                break;
         }
         if (fragment != null)
             fragmentManager.beginTransaction()
