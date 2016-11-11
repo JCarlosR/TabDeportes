@@ -1,6 +1,7 @@
 package com.youtube.sorcjc.tabdeportes.ui.fragment;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,16 +10,22 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -30,7 +37,14 @@ public class PostDialogFragment extends DialogFragment {
 
     private TextView tvTitle, tvDate;
     private ImageView ivThumbnail;
+
     private WebView webView;
+    private View mCustomView;
+    private LinearLayout mCustomViewContainer;
+    private WebChromeClient.CustomViewCallback mCustomViewCallback;
+    FrameLayout.LayoutParams COVER_SCREEN_GRAVITY_CENTER = new FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
 
     public static PostDialogFragment newInstance(String post_title, String post_date, String post_content, String post_image) {
         PostDialogFragment f = new PostDialogFragment();
@@ -77,15 +91,17 @@ public class PostDialogFragment extends DialogFragment {
         tvDate = (TextView) view.findViewById(R.id.tvDate);
         tvDate.setText(post_date);
 
+        mCustomViewContainer = (LinearLayout) getActivity().findViewById(R.id.parentWebView);
+
         webView = (WebView) view.findViewById(R.id.webView);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return false;
-            }
-        });
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.setPadding(0, 0, 0, 0);
+        webView.setInitialScale(getScale());
+
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        // webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
         // final String contentHtml = "<html><body>" + post_content + "</body></html>";
         webView.loadData(post_content, "text/html; charset=utf-8", "utf-8");
 
@@ -94,6 +110,14 @@ public class PostDialogFragment extends DialogFragment {
         Picasso.with(getContext()).load(post_image).fit().centerCrop().into(ivThumbnail);
 
         return view;
+    }
+
+    private int getScale(){
+        Display display = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        int width = display.getWidth();
+        Double val = new Double(width) / 560;
+        val = val * 100d;
+        return val.intValue();
     }
 
     @NonNull
