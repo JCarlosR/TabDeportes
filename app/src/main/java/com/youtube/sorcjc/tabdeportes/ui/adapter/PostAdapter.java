@@ -51,6 +51,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
 
         void setOnClickListeners() {
+            ivThumbnail.setOnClickListener(this);
             tvTitle.setOnClickListener(this);
         }
 
