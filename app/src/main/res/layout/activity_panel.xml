@@ -18,12 +18,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
         android:background="@color/colorPrimaryDark"
-        app:itemTextColor="@color/colorAccent"
-        app:itemIconTint="@color/colorAccent"
-        app:theme="@style/NavigationDrawerStyle"
+        android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_panel"
-        app:menu="@menu/activity_panel_drawer" />
+        app:itemIconTint="@color/colorAccent"
+        app:itemTextColor="@color/colorAccent"
+        app:menu="@menu/activity_panel_drawer"
+        app:theme="@style/NavigationDrawerStyle" />
 
 </android.support.v4.widget.DrawerLayout>
