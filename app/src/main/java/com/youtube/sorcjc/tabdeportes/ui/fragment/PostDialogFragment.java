@@ -14,6 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,8 +28,9 @@ public class PostDialogFragment extends DialogFragment {
 
     private String post_title, post_date, post_content, post_image;
 
-    private TextView tvTitle, tvDate, tvContent;
+    private TextView tvTitle, tvDate;
     private ImageView ivThumbnail;
+    private WebView webView;
 
     public static PostDialogFragment newInstance(String post_title, String post_date, String post_content, String post_image) {
         PostDialogFragment f = new PostDialogFragment();
@@ -72,8 +77,17 @@ public class PostDialogFragment extends DialogFragment {
         tvDate = (TextView) view.findViewById(R.id.tvDate);
         tvDate.setText(post_date);
 
-        tvContent = (TextView) view.findViewById(R.id.tvContent);
-        tvContent.setText(Html.fromHtml(post_content));
+        webView = (WebView) view.findViewById(R.id.webView);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return false;
+            }
+        });
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        // final String contentHtml = "<html><body>" + post_content + "</body></html>";
+        webView.loadData(post_content, "text/html; charset=utf-8", "utf-8");
 
         ivThumbnail = (ImageView) view.findViewById(R.id.ivThumbnail);
 

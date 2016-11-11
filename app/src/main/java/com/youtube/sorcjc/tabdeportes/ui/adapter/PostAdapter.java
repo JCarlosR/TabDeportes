@@ -61,6 +61,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 case R.id.tvTitle:
                     showFullPost();
                     break;
+                case R.id.ivThumbnail:
+                    showFullPost();
+                    break;
             }
         }
 
@@ -74,8 +77,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             transaction.add(android.R.id.content, newFragment)
                     .addToBackStack(null).commit();
-
-            Toast.makeText(context, "ID => " + post_title, Toast.LENGTH_SHORT).show();
         }
 
     }
