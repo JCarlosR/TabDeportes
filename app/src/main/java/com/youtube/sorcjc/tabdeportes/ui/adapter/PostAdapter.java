@@ -37,7 +37,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         ImageView ivThumbnail;
         ProgressBar progressBar;
         // main data
-        String post_title, post_date, post_content, post_image;
+        String post_categories, post_title, post_date, post_content, post_image;
 
         ViewHolder(View v) {
             super(v);
@@ -88,7 +88,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         private void showFullPost() {
             FragmentManager fragmentManager = ((PanelActivity) context).getSupportFragmentManager();
             PostDialogFragment newFragment = PostDialogFragment.newInstance(
-                    post_title, post_date, post_content, post_image
+                    post_categories, post_title, post_date, post_content, post_image
             );
 
             FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -133,6 +133,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.setOnClickListeners();
 
         // take the title, date and content
+        holder.post_categories = currentPost.getCategoryList();
         holder.post_title = currentPost.getTitle();
         holder.post_date = currentPost.getDate();
         holder.post_content = currentPost.getContent(); // Html.fromHtml(currentPost.getContent()).toString();

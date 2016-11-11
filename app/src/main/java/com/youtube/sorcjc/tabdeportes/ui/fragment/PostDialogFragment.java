@@ -33,23 +33,18 @@ import com.youtube.sorcjc.tabdeportes.R;
 
 public class PostDialogFragment extends DialogFragment {
 
-    private String post_title, post_date, post_content, post_image;
+    private String post_categories, post_title, post_date, post_content, post_image;
 
-    private TextView tvTitle, tvDate;
+    private TextView tvTitle, tvDate, tvCategories;
     private ImageView ivThumbnail;
 
     private WebView webView;
-    private View mCustomView;
-    private LinearLayout mCustomViewContainer;
-    private WebChromeClient.CustomViewCallback mCustomViewCallback;
-    FrameLayout.LayoutParams COVER_SCREEN_GRAVITY_CENTER = new FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
 
-    public static PostDialogFragment newInstance(String post_title, String post_date, String post_content, String post_image) {
+    public static PostDialogFragment newInstance(String post_categories, String post_title, String post_date, String post_content, String post_image) {
         PostDialogFragment f = new PostDialogFragment();
 
         Bundle args = new Bundle();
+        args.putString("post_categories", post_categories);
         args.putString("post_title", post_title);
         args.putString("post_date", post_date);
         args.putString("post_content", post_content);
@@ -63,6 +58,7 @@ public class PostDialogFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        post_categories = getArguments().getString("post_categories");
         post_title = getArguments().getString("post_title");
         post_date = getArguments().getString("post_date");
         post_content = getArguments().getString("post_content");
@@ -85,13 +81,15 @@ public class PostDialogFragment extends DialogFragment {
         }
         setHasOptionsMenu(true);
 
+        tvCategories = (TextView) view.findViewById(R.id.tvCategories);
+        tvCategories.setText(post_categories);
+
         tvTitle = (TextView) view.findViewById(R.id.tvTitle);
         tvTitle.setText(post_title);
 
         tvDate = (TextView) view.findViewById(R.id.tvDate);
         tvDate.setText(post_date);
-
-        mCustomViewContainer = (LinearLayout) getActivity().findViewById(R.id.parentWebView);
+        tvDate.setVisibility(View.GONE); // !!
 
         webView = (WebView) view.findViewById(R.id.webView);
         webView.setWebChromeClient(new WebChromeClient());
@@ -108,7 +106,6 @@ public class PostDialogFragment extends DialogFragment {
         webView.loadData(post_content, "text/html; charset=utf-8", "utf-8");
 
         ivThumbnail = (ImageView) view.findViewById(R.id.ivThumbnail);
-
         Picasso.with(getContext()).load(post_image).fit().centerCrop().into(ivThumbnail);
 
         return view;

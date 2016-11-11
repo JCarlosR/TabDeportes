@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.youtube.sorcjc.tabdeportes.R;
+import com.youtube.sorcjc.tabdeportes.ui.fragment.PostDialogFragment;
 import com.youtube.sorcjc.tabdeportes.ui.fragment.SportFragment;
 import com.youtube.sorcjc.tabdeportes.ui.fragment.HomeFragment;
 
@@ -82,6 +84,32 @@ public class PanelActivity extends AppCompatActivity
                 }
             }
         });
+
+        // It comes from a notification?
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            boolean from_notification = bundle.getBoolean("from_notification");
+            if (from_notification) {
+                String post_categories = bundle.getString("post_categories");
+                String post_title = bundle.getString("post_title");
+                String post_date = bundle.getString("post_date");
+                String post_content = bundle.getString("post_content");
+                String post_image = bundle.getString("post_image");
+                startPostDialogFromNotification(post_categories, post_title, post_date, post_content, post_image);
+            }
+        }
+    }
+
+    private void startPostDialogFromNotification(String post_categories, String post_title, String post_date, String post_content, String post_image) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        PostDialogFragment newFragment = PostDialogFragment.newInstance(
+                post_categories, post_title, post_date, post_content, post_image
+        );
+
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.add(android.R.id.content, newFragment)
+                .addToBackStack(null).commit();
     }
 
     @Override
