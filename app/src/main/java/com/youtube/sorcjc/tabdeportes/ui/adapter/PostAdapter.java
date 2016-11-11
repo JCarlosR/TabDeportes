@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.youtube.sorcjc.tabdeportes.R;
 import com.youtube.sorcjc.tabdeportes.model.Post;
@@ -33,6 +35,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         TextView tvCategories;
         // images
         ImageView ivThumbnail;
+        ProgressBar progressBar;
         // main data
         String post_title, post_date, post_content, post_image;
 
@@ -43,11 +46,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             tvDate = (TextView) v.findViewById(R.id.tvDate);
             tvTitle = (TextView) v.findViewById(R.id.tvTitle);
             tvCategories = (TextView) v.findViewById(R.id.tvCategories);
+
             ivThumbnail = (ImageView) v.findViewById(R.id.ivThumbnail);
+            progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         }
 
         void loadImage(final String imageUrl) {
-            Picasso.with(context).load(imageUrl).fit().centerCrop().into(ivThumbnail);
+            Picasso.with(context)
+                    .load(imageUrl)
+                    .fit().centerCrop()
+                    .into(ivThumbnail, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError() {
+                            // Infinite load
+                        }
+                    });
         }
 
         void setOnClickListeners() {

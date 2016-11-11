@@ -102,6 +102,8 @@ public class PostDialogFragment extends DialogFragment {
         webSettings.setJavaScriptEnabled(true);
         // webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
+        webSettings.setSupportZoom(false);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(false);
         // final String contentHtml = "<html><body>" + post_content + "</body></html>";
         webView.loadData(post_content, "text/html; charset=utf-8", "utf-8");
 

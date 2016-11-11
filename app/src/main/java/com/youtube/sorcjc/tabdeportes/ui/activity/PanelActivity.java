@@ -154,6 +154,10 @@ public class PanelActivity extends AppCompatActivity
             case R.id.nav_others:
                 fragment = SportFragment.newInstance("Otros deportes", 33);
                 break;
+
+            case R.id.item_double_A:
+                fragment = SportFragment.newInstance("DobleA", 29);
+                break;
         }
         if (fragment != null)
             fragmentManager.beginTransaction()

@@ -23,4 +23,42 @@
             android:title="Otros deportes" />
     </group>
 
+    <item
+        android:title="Baseball">
+        <menu>
+            <item android:id="@+id/item_double_A"
+                android:title="DobleA" />
+            <item android:id="@+id/item_MLB"
+                android:title="MLB" />
+            <item android:id="@+id/item_baseball_others"
+                android:title="Otras ligas" />
+        </menu>
+    </item>
+
+    <item
+        android:title="Basketball">
+        <menu>
+            <item android:id="@+id/item_BSN"
+                android:title="BSN" />
+            <item android:id="@+id/item_NBA"
+                android:title="NBA" />
+            <item android:id="@+id/item_basketball_others"
+                android:title="Otras ligas" />
+        </menu>
+    </item>
+
+    <item
+        android:title="Otros deportes">
+        <menu>
+            <item android:id="@+id/item_MMA"
+                android:title="MMA" />
+            <item android:id="@+id/item_NFL"
+                android:title="NFL" />
+            <item android:id="@+id/item_wheels"
+                android:title="Wheels &amp; Lipstick" />
+            <item android:id="@+id/item_volleyball"
+                android:title="Voleibol" />
+        </menu>
+    </item>
+
 </menu>
