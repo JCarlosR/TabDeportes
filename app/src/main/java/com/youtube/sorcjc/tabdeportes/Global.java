@@ -16,6 +16,8 @@ import org.json.JSONObject;
 
 public class Global extends Application {
 
+    private int posts_viewed;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -24,6 +26,20 @@ public class Global extends Application {
         OneSignal.startInit(this)
                 .setNotificationOpenedHandler(new ExampleNotificationOpenedHandler())
                 .init();
+
+        posts_viewed = 0;
+    }
+
+    public void increasePostsViewed() {
+        ++posts_viewed;
+    }
+
+    public void resetPostsViewed() {
+        posts_viewed = 0;
+    }
+
+    public int getPostsViewed() {
+        return posts_viewed;
     }
 
     private void openThePost(String post_categories, String post_title, String post_date, String post_content, String post_image) {

@@ -10,4 +10,6 @@
     <string name="action_settings">Configuración</string>
 
     <string name="copyright_text">TAB Deportes 2016 - All rights reserved.</string>
+
+    <string name="interstitial_ad_unit_id">ca-app-pub-9365600681688872/2918594744</string>
 </resources>

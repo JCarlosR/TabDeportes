@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.youtube.sorcjc.tabdeportes.Global;
 import com.youtube.sorcjc.tabdeportes.R;
 import com.youtube.sorcjc.tabdeportes.model.Post;
 import com.youtube.sorcjc.tabdeportes.ui.activity.PanelActivity;
@@ -86,7 +87,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
 
         private void showFullPost() {
-            FragmentManager fragmentManager = ((PanelActivity) context).getSupportFragmentManager();
+            PanelActivity panelActivity = ((PanelActivity) context);
+
+            // Add count
+            Global global = (Global) panelActivity.getApplicationContext();
+            global.increasePostsViewed();
+            if (global.getPostsViewed() >= 3) {
+                panelActivity.showInterstitial();
+            }
+
+            FragmentManager fragmentManager = panelActivity.getSupportFragmentManager();
             PostDialogFragment newFragment = PostDialogFragment.newInstance(
                     post_categories, post_title, post_date, post_content, post_image
             );

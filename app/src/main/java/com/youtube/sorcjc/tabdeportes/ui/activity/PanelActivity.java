@@ -20,6 +20,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.youtube.sorcjc.tabdeportes.Global;
 import com.youtube.sorcjc.tabdeportes.R;
 import com.youtube.sorcjc.tabdeportes.ui.fragment.PostDialogFragment;
 import com.youtube.sorcjc.tabdeportes.ui.fragment.SportFragment;
@@ -29,6 +33,8 @@ import static android.R.id.toggle;
 
 public class PanelActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +104,48 @@ public class PanelActivity extends AppCompatActivity
                 startPostDialogFromNotification(post_categories, post_title, post_date, post_content, post_image);
             }
         }
+
+        setupInterstitial();
+    }
+
+    private void setupInterstitial() {
+        // [instantiate_interstitial_ad]
+        // Create an InterstitialAd object. This same object can be re-used whenever you want to
+        // show an interstitial.
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
+
+        // [create_interstitial_ad_listener]
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
+    }
+
+    public void showInterstitial() {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+            ((Global) getApplicationContext()).resetPostsViewed();
+        }
+    }
+    /**
+     * Load a new interstitial ad asynchronously.
+     */
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
+    }
+    /** Called when returning to the activity */
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (! mInterstitialAd.isLoaded())
+            requestNewInterstitial();
     }
 
     private void startPostDialogFromNotification(String post_categories, String post_title, String post_date, String post_content, String post_image) {
