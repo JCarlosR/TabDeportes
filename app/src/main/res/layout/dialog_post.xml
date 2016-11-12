@@ -24,8 +24,8 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@color/white">
 
         <LinearLayout
             android:id="@+id/parentWebView"
@@ -44,7 +44,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="12dp"
                 android:gravity="center">
@@ -67,7 +67,7 @@
                     android:id="@+id/tvDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=""/>
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="match_parent"
@@ -76,13 +76,11 @@
                     android:layout_marginBottom="12dp"
                     android:background="@color/gray" />
 
+                <WebView
+                    android:id="@+id/webView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
-
-            <WebView
-                android:id="@+id/webView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
 
         </LinearLayout>
 

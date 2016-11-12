@@ -10,12 +10,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
@@ -26,7 +29,9 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.youtube.sorcjc.tabdeportes.R;
@@ -96,13 +101,41 @@ public class PostDialogFragment extends DialogFragment {
         webView.setPadding(0, 0, 0, 0);
         webView.setInitialScale(getScale());
 
+        // Prevent scroll
+        webView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                return (event.getAction() == MotionEvent.ACTION_MOVE);
+            }
+        });
+
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         // webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
-        webSettings.setSupportZoom(false);
+        // webSettings.setSupportZoom(false);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(false);
-        // final String contentHtml = "<html><body>" + post_content + "</body></html>";
+
+        ViewTreeObserver viewTreeObserver  = webView.getViewTreeObserver();
+        viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                int height = webView.getMeasuredHeight();
+                if( height > 0 ) {
+                    // Toast.makeText(getActivity(), "Debería => " + height, Toast.LENGTH_SHORT).show();
+                    webView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    // Set new height
+                    ViewGroup.LayoutParams params = webView.getLayoutParams();
+                    params.height = height;
+                    webView.requestLayout();
+                    // webView.setLayoutParams(params);
+                }
+
+                return false;
+            }
+        });
+
+        post_content = "<html><body>" + post_content + "</body></html>";
+        Log.d("PostDialog", "Después: " + post_content);
         webView.loadData(post_content, "text/html; charset=utf-8", "utf-8");
 
         ivThumbnail = (ImageView) view.findViewById(R.id.ivThumbnail);

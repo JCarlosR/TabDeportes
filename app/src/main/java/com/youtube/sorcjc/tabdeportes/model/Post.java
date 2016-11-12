@@ -1,5 +1,7 @@
 package com.youtube.sorcjc.tabdeportes.model;
 
+import android.util.Log;
+
 import com.youtube.sorcjc.tabdeportes.io.response.ThumbnailImages;
 
 import java.util.ArrayList;
@@ -79,7 +81,8 @@ public class Post {
     }
 
     public String getContent() {
-        return content;
+        // Remove the last 219 characters (the change doesn't persist)
+        return content.substring(0, content.length() - 206);
     }
 
     public void setContent(String content) {
