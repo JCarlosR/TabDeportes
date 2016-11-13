@@ -33,6 +33,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.squareup.picasso.Picasso;
 import com.youtube.sorcjc.tabdeportes.R;
 
@@ -140,6 +142,11 @@ public class PostDialogFragment extends DialogFragment {
 
         ivThumbnail = (ImageView) view.findViewById(R.id.ivThumbnail);
         Picasso.with(getContext()).load(post_image).fit().centerCrop().into(ivThumbnail);
+
+        // Load Ad banner
+        AdView mAdView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         return view;
     }
