@@ -1,7 +1,9 @@
 package com.youtube.sorcjc.tabdeportes.ui.fragment;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -72,6 +74,7 @@ public class PostDialogFragment extends DialogFragment {
         post_image = getArguments().getString("post_image");
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -118,26 +121,44 @@ public class PostDialogFragment extends DialogFragment {
         webSettings.setJavaScriptCanOpenWindowsAutomatically(false);
 
         ViewTreeObserver viewTreeObserver  = webView.getViewTreeObserver();
-        viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int height = webView.getMeasuredHeight();
+                Log.d("onGlobalLayout", "measuredHeight => " + height);
+                if (height > 100) {
+                    // Set new height
+                    ViewGroup.LayoutParams params = webView.getLayoutParams();
+                    params.height = height;
+                    webView.requestLayout();
+
+                    if (Build.VERSION.SDK_INT < 16) {
+                        webView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    } else {
+                        webView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                }
+            }
+        });
+        /*viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
                 int height = webView.getMeasuredHeight();
-                if( height > 0 ) {
-                    // Toast.makeText(getActivity(), "Debería => " + height, Toast.LENGTH_SHORT).show();
+                Log.d("PreDrawPost", "measuredHeight => " + height);
+                if (height > 0) {
                     webView.getViewTreeObserver().removeOnPreDrawListener(this);
                     // Set new height
                     ViewGroup.LayoutParams params = webView.getLayoutParams();
                     params.height = height;
                     webView.requestLayout();
-                    // webView.setLayoutParams(params);
                 }
 
                 return false;
             }
-        });
+        });*/
 
         post_content = "<html><body>" + post_content + "</body></html>";
-        Log.d("PostDialog", "Después: " + post_content);
+        // Log.d("PostDialog", "After: " + post_content);
         webView.loadData(post_content, "text/html; charset=utf-8", "utf-8");
 
         ivThumbnail = (ImageView) view.findViewById(R.id.ivThumbnail);
@@ -151,7 +172,7 @@ public class PostDialogFragment extends DialogFragment {
         return view;
     }
 
-    private int getScale(){
+    private int getScale() {
         Display display = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         int width = display.getWidth();
         Double val = new Double(width) / 560;
@@ -172,7 +193,7 @@ public class PostDialogFragment extends DialogFragment {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            // handle close button click here
+            // close button click
             dismiss();
             return true;
         }
