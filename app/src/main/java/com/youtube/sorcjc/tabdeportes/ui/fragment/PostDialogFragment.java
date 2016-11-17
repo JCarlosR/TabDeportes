@@ -104,7 +104,8 @@ public class PostDialogFragment extends DialogFragment {
         webView = (WebView) view.findViewById(R.id.webView);
         webView.setWebChromeClient(new WebChromeClient());
         webView.setPadding(0, 0, 0, 0);
-        webView.setInitialScale(getScale());
+        // webView.setInitialScale(getScale());
+        webView.setInitialScale(1);
 
         // Prevent scroll
         webView.setOnTouchListener(new View.OnTouchListener() {
@@ -115,17 +116,20 @@ public class PostDialogFragment extends DialogFragment {
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        // webSettings.setLoadWithOverviewMode(true);
+        webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
-        // webSettings.setSupportZoom(false);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(false);
+
+        // this causes the scrollbar to not take up space, and allows the web to fill the viewport
+        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        webView.setScrollbarFadingEnabled(false);
 
         ViewTreeObserver viewTreeObserver  = webView.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 int height = webView.getMeasuredHeight();
-                Log.d("onGlobalLayout", "measuredHeight => " + height);
+                // Log.d("onGlobalLayout", "measuredHeight => " + height);
                 if (height > 100) {
                     // Set new height
                     ViewGroup.LayoutParams params = webView.getLayoutParams();
@@ -157,7 +161,7 @@ public class PostDialogFragment extends DialogFragment {
             }
         });*/
 
-        post_content = "<html><body>" + post_content + "</body></html>";
+        post_content = "<html><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /><body>" + post_content + "</body></html>";
         // Log.d("PostDialog", "After: " + post_content);
         webView.loadData(post_content, "text/html; charset=utf-8", "utf-8");
 
@@ -175,6 +179,7 @@ public class PostDialogFragment extends DialogFragment {
     private int getScale() {
         Display display = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         int width = display.getWidth();
+        Toast.makeText(getContext(), "width => " + width, Toast.LENGTH_SHORT).show();
         Double val = new Double(width) / 560;
         val = val * 100d;
         return val.intValue();

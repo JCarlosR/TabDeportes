@@ -7,8 +7,8 @@ android {
         applicationId "com.youtube.sorcjc.tabdeportes"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [onesignal_app_id: "19855cd8-2ee4-4af4-8cd8-a100a78d8eef",
                                 // Project number pulled from dashboard, local value is ignored.
