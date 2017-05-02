@@ -136,7 +136,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.tvDate.setText(currentPost.getDate());
         holder.tvTitle.setText(currentPost.getTitle());
         holder.tvCategories.setText(currentPost.getCategoryList());
-        final String imageUrl = currentPost.getThumbnail_images().getMedium().getUrl();
+        final String imageUrl = currentPost.getAttachments().get(0).getUrl();
         holder.loadImage(imageUrl);
 
         // set events

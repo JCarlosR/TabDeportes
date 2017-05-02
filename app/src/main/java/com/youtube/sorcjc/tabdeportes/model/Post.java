@@ -30,7 +30,9 @@ public class Post {
     private String excerpt;
     private String date;
     private ArrayList<Category> categories;
-    private ThumbnailImages thumbnail_images;
+    private ArrayList<Attachment> attachments;
+
+    // private ThumbnailImages thumbnail_images;
 
     public int getId() {
         return id;
@@ -123,11 +125,19 @@ public class Post {
         return  list;
     }
 
-    public ThumbnailImages getThumbnail_images() {
+    public ArrayList<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(ArrayList<Attachment> attachments) {
+        this.attachments = attachments;
+    }
+
+    /*public ThumbnailImages getThumbnail_images() {
         return thumbnail_images;
     }
 
     public void setThumbnail_images(ThumbnailImages thumbnail_images) {
         this.thumbnail_images = thumbnail_images;
-    }
+    }*/
 }

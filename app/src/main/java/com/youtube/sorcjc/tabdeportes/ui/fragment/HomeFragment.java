@@ -91,7 +91,8 @@ public class HomeFragment extends Fragment implements  Callback<RecentPostsRespo
 
     @Override
     public void onFailure(Call<RecentPostsResponse> call, Throwable t) {
-        Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        Log.d("HomeFragment", t.getLocalizedMessage());
+        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
 
