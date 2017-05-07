@@ -84,7 +84,8 @@ public class Post {
 
     public String getContent() {
         // Remove the last 219 characters (the change doesn't persist)
-        return content.substring(0, content.length() - 206);
+        return content; // content.substring(0, content.length() - 206);
+        // before the content ends with unnecessary code
     }
 
     public void setContent(String content) {

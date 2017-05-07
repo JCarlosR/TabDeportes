@@ -131,16 +131,13 @@ public class PostDialogFragment extends DialogFragment {
                 int height = webView.getMeasuredHeight();
                 // Log.d("onGlobalLayout", "measuredHeight => " + height);
                 if (height > 100) {
-                    // Set new height
+                    // set new height
                     ViewGroup.LayoutParams params = webView.getLayoutParams();
                     params.height = height;
                     webView.requestLayout();
 
-                    if (Build.VERSION.SDK_INT < 16) {
-                        webView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                    } else {
-                        webView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    }
+                    // min sdk 16
+                    webView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
             }
         });
