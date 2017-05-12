@@ -7,15 +7,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.youtube.sorcjc.tabdeportes.Global;
 import com.youtube.sorcjc.tabdeportes.R;
+import com.youtube.sorcjc.tabdeportes.model.Attachment;
 import com.youtube.sorcjc.tabdeportes.model.Post;
 import com.youtube.sorcjc.tabdeportes.ui.activity.PanelActivity;
 import com.youtube.sorcjc.tabdeportes.ui.fragment.PostDialogFragment;
@@ -35,6 +36,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         TextView tvTitle;
         TextView tvCategories;
         // images
+        FrameLayout frameLayoutImage;
         ImageView ivThumbnail;
         ProgressBar progressBar;
         // main data
@@ -48,6 +50,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             tvTitle = (TextView) v.findViewById(R.id.tvTitle);
             tvCategories = (TextView) v.findViewById(R.id.tvCategories);
 
+            frameLayoutImage = (FrameLayout) v.findViewById(R.id.frameLayoutImageLoading);
             ivThumbnail = (ImageView) v.findViewById(R.id.ivThumbnail);
             progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         }
@@ -136,8 +139,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.tvDate.setText(currentPost.getDate());
         holder.tvTitle.setText(currentPost.getTitle());
         holder.tvCategories.setText(currentPost.getCategoryList());
-        final String imageUrl = currentPost.getAttachments().get(0).getUrl();
-        holder.loadImage(imageUrl);
+        final ArrayList<Attachment> attachments = currentPost.getAttachments();
+        String imageUrl = "";
+        if (attachments != null && attachments.size() > 0) {
+            imageUrl = attachments.get(0).getUrl();
+            holder.loadImage(imageUrl);
+        } else {
+            holder.frameLayoutImage.setVisibility(View.GONE);
+        }
 
         // set events
         holder.setOnClickListeners();
